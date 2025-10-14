@@ -54,5 +54,3 @@ It serves as both a **code reference** and **technical credibility portfolio** f
 
 **GitHub:** [@mrEkso](https://github.com/mrEkso)  
 **LinkedIn:** [Davyd Okaianchenko](https://www.linkedin.com/in/davyd-okaianchenko/)
-
----
