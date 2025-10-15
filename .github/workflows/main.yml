@@ -1,0 +1,37 @@
+name: exercism-solutions auto-merge
+
+on:
+  pull_request_target:
+    types: [opened, reopened, synchronize, labeled]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  approve-and-enable-automerge:
+    if: |
+      github.event.pull_request.user.login == 'exercism-solutions-syncer' ||
+      github.event.pull_request.user.login == 'exercism-solutions-syncer[bot]' ||
+      github.actor == 'exercism-solutions-syncer' ||
+      github.actor == 'exercism-solutions-syncer[bot]' ||
+      contains(github.event.pull_request.labels.*.name, 'automerge-exercism')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Debug PR author
+        run: |
+          echo "actor=${{ github.actor }}"
+          echo "pr_user=${{ github.event.pull_request.user.login }}"
+          echo "labels=${{ toJson(github.event.pull_request.labels.*.name) }}"
+
+      - name: Auto-approve PR
+        uses: hmarr/auto-approve-action@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Enable PR auto-merge (squash)
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          pull-request-number: ${{ github.event.pull_request.number }}
+          merge-method: squash
