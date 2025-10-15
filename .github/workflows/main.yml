@@ -24,14 +24,14 @@ jobs:
           echo "pr_user=${{ github.event.pull_request.user.login }}"
           echo "labels=${{ toJson(github.event.pull_request.labels.*.name) }}"
 
-      - name: Auto-approve PR
+      - name: Auto-approve PR as Davyd
         uses: hmarr/auto-approve-action@v4
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.AUTOMERGE_SECRET }}
 
-      - name: Enable PR auto-merge (squash)
+      - name: Enable PR auto-merge (squash) as Davyd
         uses: peter-evans/enable-pull-request-automerge@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.AUTOMERGE_SECRET }}
           pull-request-number: ${{ github.event.pull_request.number }}
           merge-method: squash
